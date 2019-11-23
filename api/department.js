@@ -1,5 +1,6 @@
 module.exports = app => {
     const { existsOrError, notExistsOrError } = app.api.validation
+    const limit = 10 //usado para paginacao
 
     const save = async (req, res) => {
         const department = { ...req.body }
@@ -11,7 +12,7 @@ module.exports = app => {
 
             const departmentFromDB = await app.db('departments')
                 .where({ secretaryId: department.secretaryId }).first()
-            if(department.id) {
+            if(!department.id) {
                 notExistsOrError(departmentFromDB, 'Departamento já cadastrado')
             }
         } catch(msg) {

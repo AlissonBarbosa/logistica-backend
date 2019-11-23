@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt-nodejs')
 
 module.exports = app => {
     const { existsOrError, notExistsOrError, equalsOrError } = app.api.validation
+    const limit = 10 //usado para paginacao
 
     const encryptPassword = password => {
         const salt = bcrypt.genSaltSync(10)
@@ -21,7 +22,7 @@ module.exports = app => {
 
             const userFromDB = await app.db('users')
                 .where({ login: user.login}).first()
-            if(user.id) {
+            if(!user.id) {
                 notExistsOrError(userFromDB, 'Usuário já Cadastrado')
             }
 

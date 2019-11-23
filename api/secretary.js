@@ -1,5 +1,6 @@
 module.exports = app => {
     const { existsOrError, notExistsOrError } = app.api.validation
+    const limit = 10 //usado para paginacao
 
     const save = async (req, res) => {
         const secretary = { ...req.body }
@@ -11,13 +12,13 @@ module.exports = app => {
 
             const secretaryFromDBName = await app.db('secretariats')
                 .where({ name: secretary.name }).first()
-            if(secretary.id) {
+            if(!secretary.id) {
                 notExistsOrError(secretaryFromDBName, 'Secretaria já cadastrada com esse nome')
             }
 
             const secretaryFromDBInitial = await app.db('secretariats')
                 .where({ initial: secretary.initial }).first()
-            if(secretary.id) {
+            if(!secretary.id) {
                 notExistsOrError(secretaryFromDBInitial, 'Secretaria já cadastrada com essa sigla')
             }
 

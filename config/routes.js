@@ -20,6 +20,7 @@ module.exports = app => {
         .get(app.api.product.get)
     
     app.route('/products/:id')
+        .put(app.api.product.save)
         .get(app.api.product.getById)
 
     app.route('/departments')

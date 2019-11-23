@@ -1,5 +1,6 @@
 module.exports = app => {
     const { existsOrError, notExistsOrError } = app.api.validation
+    const limit = 10 //usado para paginacao
 
     const save = async (req, res) => {
         const product = { ...req.body }
@@ -10,7 +11,7 @@ module.exports = app => {
 
             const productFromDB = await app.db('products')
                 .where({ description: product.description }).first()
-            if(product.id) {
+            if(!product.id) {
                 notExistsOrError(productFromDB, 'Produto já cadastrado com essa descrição')
             }
 

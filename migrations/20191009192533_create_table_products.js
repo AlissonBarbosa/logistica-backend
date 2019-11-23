@@ -4,7 +4,7 @@ exports.up = function(knex) {
         table.string('description').notNull()
         table.string('make')
         table.string('model')
-        table.integer('quantity').notNull().defaultTo(1)
+        table.integer('quantity').notNull().defaultTo(0)
     })
 };
 
