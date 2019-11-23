@@ -28,5 +28,15 @@ module.exports = app => {
         .get(app.api.department.get)
     
     app.route('/departments/:id')
+        .put(app.api.department.save)
         .get(app.api.department.getById)
+        .delete(app.api.department.remove)
+
+    app.route('/entries')
+        .post(app.api.entries.save)
+        .get(app.api.entries.get)
+    
+    app.route('/entries/:id')
+        .put(app.api.entries.save)
+        .get(app.api.entries.getById)
 }

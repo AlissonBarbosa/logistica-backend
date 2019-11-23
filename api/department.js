@@ -10,13 +10,16 @@ module.exports = app => {
             existsOrError(department.name, 'Nome não informado')
             existsOrError(department.secretaryId, 'Secretaria não informada')
 
-            const departmentFromDB = await app.db('departments')
-                .where({ secretaryId: department.secretaryId }).first()
+            const departmentFromDBName = await app.db('departments')
+                .where({ name: department.name })
+                .andWhere({ secretaryId: department.secretaryId})
+                .first()
             if(!department.id) {
-                notExistsOrError(departmentFromDB, 'Departamento já cadastrado')
+                notExistsOrError(departmentFromDBName, 'Setor já cadastrado com esse nome')
             }
+
         } catch(msg) {
-            res.status(400).send(msg)
+            return res.status(400).send(msg)
         }
 
         if(department.id) {
@@ -31,6 +34,7 @@ module.exports = app => {
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         }
+
     }
 
     const get = async (req, res) => {
@@ -54,5 +58,22 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
-    return { save, get, getById }
+    const remove = async (req, res) => {
+        try {
+            const rowsDeleted = await app.db('departments')
+                .where({ id: req.params.id }).del()
+            
+            try {
+                existsOrError(rowsDeleted, 'Setor não foi encontrado.')
+            } catch(msg) {
+                return res.status(400).send(msg)    
+            }
+
+            res.status(204).send()
+        } catch(msg) {
+            res.status(500).send(msg)
+        }
+    }
+
+    return { save, get, getById, remove }
 }

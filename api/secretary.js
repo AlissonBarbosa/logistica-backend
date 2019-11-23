@@ -21,7 +21,6 @@ module.exports = app => {
             if(!secretary.id) {
                 notExistsOrError(secretaryFromDBInitial, 'Secretaria já cadastrada com essa sigla')
             }
-
         } catch(msg) {
             return res.status(400).send(msg)
         }
