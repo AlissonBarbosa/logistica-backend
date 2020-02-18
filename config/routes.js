@@ -39,4 +39,8 @@ module.exports = app => {
     app.route('/entries/:id')
         .put(app.api.entries.save)
         .get(app.api.entries.getById)
+    
+    app.route('/productentrie/')
+        .get(app.api.productEntries.get)
+        .post(app.api.productEntries.save)
 }
